@@ -105,3 +105,17 @@ function! emoji#complete(findstart, base)
   endif
 endfunction
 
+" Function to be used with CompleteDone auto-command.
+" Replaces the emoji word with the actual desired symbol
+" (e.g. ':smile:' is replaced with '😄')
+function! emoji#replace(completed_item)
+  execute "substitute/" . a:completed_item.word . "/" . a:completed_item.kind . "/g"
+endfunction
+
+" Allows GitHub emoji text to be replaced with actual emojis
+function! emoji#set_autoreplace()
+  echom "Setting emoji auto-replace feature"
+  set completefunc=emoji#complete
+  autocmd CompleteDone * :call emoji#replace(v:completed_item)
+endfunction
+  
