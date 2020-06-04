@@ -53,12 +53,7 @@ function! emoji#for(name, ...)
 
   let echar = type(emoji) == 0 ? nr2char(emoji) :
         \ join(map(copy(emoji), 'nr2char(v:val)'), '')
-  let pad = get(a:, 2, 1)
-  if pad
-    return echar . repeat(' ', 1 + pad - s:strwidth(echar))
-  else
-    return echar
-  endif
+  return echar
 endfunction
 
 let s:max_score = 1000
@@ -109,7 +104,10 @@ endfunction
 " Replaces the emoji word with the actual desired symbol
 " (e.g. ':smile:' is replaced with '😄')
 function! emoji#replace(completed_item)
-  execute "substitute/" . a:completed_item.word . "/" . a:completed_item.kind . "/g"
+  let a:cursor_pos = getpos('.')
+  echom a:completed_item.kind
+    execute "substitute/" . a:completed_item.word . "/" . a:completed_item.kind . "/g"
+  call setpos('.', a:cursor_pos)
 endfunction
 
 " Allows GitHub emoji text to be replaced with actual emojis
