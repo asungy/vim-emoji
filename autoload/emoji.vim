@@ -104,10 +104,9 @@ endfunction
 " Replaces the emoji word with the actual desired symbol
 " (e.g. ':smile:' is replaced with '😄')
 function! emoji#replace(completed_item)
-  let a:cursor_pos = getpos('.')
-  echom a:completed_item.kind
+  let l:cursor_pos = getpos('.')
     execute "substitute/" . a:completed_item.word . "/" . a:completed_item.kind . "/g"
-  call setpos('.', a:cursor_pos)
+  call setpos('.', l:cursor_pos)
 endfunction
 
 " Allows GitHub emoji text to be replaced with actual emojis
